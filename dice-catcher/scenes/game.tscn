@@ -1,0 +1,99 @@
+[gd_scene format=3 uid="uid://bhytlmcyhr7lk"]
+
+[ext_resource type="Script" uid="uid://d1r0m7dau1mwj" path="res://scripts/game.gd" id="1_lbhrr"]
+[ext_resource type="Texture2D" uid="uid://dwgaxffkw76hs" path="res://assets/GemBg.png" id="1_uwrxv"]
+[ext_resource type="AudioStream" uid="uid://dpxwltswp6mda" path="res://assets/tetris.mp3" id="2_yqjtg"]
+[ext_resource type="PackedScene" uid="uid://bwi54w2adx1vg" path="res://scenes/fox.tscn" id="3_lnu2h"]
+[ext_resource type="FontFile" uid="uid://c6clpp2ib202a" path="res://assets/TitanOne-Regular.ttf" id="3_p57ef"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_p57ef"]
+font = ExtResource("3_p57ef")
+font_size = 42
+outline_size = 10
+outline_color = Color(0.01933779, 0.08730779, 0.02040328, 1)
+shadow_size = 6
+shadow_color = Color(0, 0, 0, 0.8156863)
+shadow_offset = Vector2(5, 2.505)
+
+[sub_resource type="LabelSettings" id="LabelSettings_npgl0"]
+font = ExtResource("3_p57ef")
+font_size = 104
+font_color = Color(0.85548234, 0, 0.066622056, 1)
+outline_size = 14
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 12
+shadow_color = Color(0, 0, 0, 0.9411765)
+shadow_offset = Vector2(4, 4)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_o2hu7"]
+distance = -826.0
+
+[node name="Game" type="Node" unique_id=552722256]
+process_mode = 3
+script = ExtResource("1_lbhrr")
+
+[node name="GemBg" type="Sprite2D" parent="." unique_id=1228908395]
+position = Vector2(641, 342)
+scale = Vector2(0.685, 0.685)
+texture = ExtResource("1_uwrxv")
+
+[node name="GameScore" type="Label" parent="." unique_id=1430606286]
+unique_name_in_owner = true
+z_index = 1
+offset_left = 28.0
+offset_top = 17.0
+offset_right = 119.0
+offset_bottom = 66.0
+text = "000"
+label_settings = SubResource("LabelSettings_p57ef")
+
+[node name="GameOver" type="Label" parent="." unique_id=1611373643]
+unique_name_in_owner = true
+visible = false
+z_index = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -153.5
+offset_top = -30.5
+offset_right = 153.5
+offset_bottom = 30.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "GAME OVER"
+label_settings = SubResource("LabelSettings_npgl0")
+
+[node name="MusicBg" type="AudioStreamPlayer" parent="." unique_id=1524381594]
+unique_name_in_owner = true
+stream = ExtResource("2_yqjtg")
+volume_db = -10.0
+autoplay = true
+parameters/looping = true
+
+[node name="SpawnTimer" type="Timer" parent="." unique_id=1253286331]
+unique_name_in_owner = true
+wait_time = 2.5
+autostart = true
+
+[node name="DeathTimer" type="Timer" parent="." unique_id=734875287]
+unique_name_in_owner = true
+wait_time = 2.0
+one_shot = true
+
+[node name="KillZone" type="Area2D" parent="." unique_id=991305905]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="KillZone" unique_id=2113555505]
+shape = SubResource("WorldBoundaryShape2D_o2hu7")
+
+[node name="Pausable" type="Node" parent="." unique_id=1821492598]
+process_mode = 1
+
+[node name="Fox" parent="Pausable" unique_id=22590268 instance=ExtResource("3_lnu2h")]
+position = Vector2(587, 589)
+
+[connection signal="timeout" from="SpawnTimer" to="." method="_on_spawn_timer_timeout"]
+[connection signal="timeout" from="DeathTimer" to="." method="_on_death_timer_timeout"]
+[connection signal="area_entered" from="KillZone" to="." method="_on_kill_zone_area_entered"]
+[connection signal="eat" from="Pausable/Fox" to="." method="_on_fox_eat"]
