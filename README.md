@@ -6,6 +6,12 @@ A small game made in Godot from the course: "Jumpstart to 2D Game Development: G
 - Scene instantiation and manipulation
 - Communication between different scenes
 
+# Challenge Encountered
+- Being unfamiliar with the language
+  
+# Solution to Challenge
+- Taking time to read through the extensive and clear documentation provided.
+
 # In-Game Screenshots
 ![game image](screenshots/dice_catcher.png)
 
