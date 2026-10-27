@@ -9,4 +9,4 @@ A small game made in Godot from the course: "Jumpstart to 2D Game Development: G
 # In-Game Screenshots
 ![game image](screenshots/dice_catcher.png)
 
-![game over image](screenshots/dice_catcherover_screen.png)
+![game over image](screenshots/dice_catcher_over_screen.png)
